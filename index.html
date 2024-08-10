@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Simple Website</title>
+    <style>
+        body {
+            font-family: cursive;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .sidebar {
+            padding-top: 40px;
+            padding-right: 40px;
+            width: 230px;
+            background-color: #BCBCBC;
+            padding-left: 40px;
+            border-right: 10px solid #4A495A;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            overflow-y: auto;
+            position: fixed;
+            height: 100%;
+        }
+
+        h1 {
+            margin-top: 0px;
+            margin-bottom: 10px;
+            color: #0A162C;
+        }
+
+        p {
+            width: 100%;
+            margin-top: 0px;
+            color: #0A162C;
+            line-height: 1.6;
+            font-weight: normal;
+        }
+
+        .content {
+            margin-left: 300px;
+            padding-top: 30px;
+            padding-left: 40px;
+            background-color: #1f2035;
+            display: flex;
+            justify-content: left;
+            border-left: 3px solid #102448;
+            overflow-y: auto;
+            margin-top: 73px;
+            flex-wrap: wrap;
+        }
+
+        img.profile-picture {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 5px solid #575555;
+            padding: 5px;
+            max-width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .links a {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            color: #0A162C;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+            color: #267ebc;
+        }
+
+        .links img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            margin: 0px 0;
+            color: #0A162C;
+            font-weight: normal;
+        }
+
+        .location img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        main-content {
+            font-size: 1.1em;
+        }
+
+        .main-content h1 {
+            font-size: 2.2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-top: 30px;
+            font-weight: bolder;
+            color: #f8f8f8;
+            border-bottom: thick double #ccc;
+            border-right-width: 100px;
+        }
+
+        .main-content h5 {
+            margin-top: 5px;
+            color: #BCBCBC;
+            margin-left: 10px;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .main-content p {
+            line-height: 1.3;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #e4e0e0;
+            font-size: large;
+            border-bottom: #f8f8f8;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+
+        .main-content ul {
+            padding-left: 65px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            font-weight: normal;
+            color: #e4e0e0;
+            margin-top: 0px;
+        }
+    
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 180px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .content {
+                margin-left: 200px;
+                padding-left: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 10px solid #4A495A;
+            }
+
+            .content {
+                margin-left: 0;
+                padding-left: 20px;
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            img.profile-picture {
+                max-width: 100px;
+            }
+
+            .main-content h1 {
+                font-size: 1.8em;
+            }
+
+            .main-content p {
+                font-size: medium;
+            }
+
+            .main-content ul {
+                padding-left: 40px;
+            }
+        }
+        .certificates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center; /* Center the items */
+        }
+
+        /* General image styles */
+        .certificates img {
+            width: 150px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Zoomed image styles */
+        .certificates img.zoomed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(5.5);
+            z-index: 1000;
+            max-width: 80vw;
+            max-height: 80vh;
+            cursor: zoom-out;
+            border: none; /* Optionally remove border on zoom */
+        }
+
+        /* Responsive styles for small screens */
+        @media (max-width: 600px) {
+            .certificates {
+                gap: 5px; /* Reduce gap between items */
+            }
+
+            .certificates img {
+                width: 100px; /* Adjust image width */
+                margin-bottom: 20px; /* Reduce margin at the bottom */
+            }
+
+            .certificates img.zoomed {
+                max-width: 90vw; /* Increase max-width on zoom */
+                max-height: 90vh; /* Increase max-height on zoom */
+            }
+        }
+
+        .resume-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: red; 
+        }
+        .resume-link svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px; 
+        }
+        .resume-link:hover {
+            text-decoration: underline; 
+            color: #BCBCBC;
+        }
+        .ish a {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            color: #57bfe2;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+        .nav-links {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        .nav-links a {
+            color: #57bfe2;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+            color: #BCBCBC;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0A162C;
+            color: #f6f7f9; /* Changed color to ensure visibility */
+            padding: 20px 20px;
+            position: fixed;
+            width: calc(100% - 320px); /* Adjusted to account for the margin-left */
+            top: 0;
+            left: 0;
+            box-shadow: 0 2px 0px rgba(243, 242, 242, 0.344);
+            z-index: 1000;
+            margin-left: 320px;
+            transition: width 0.3s, margin-left 0.3s;
+        }
+
+        header .logo h1 {
+            margin: 0;
+        }
+
+        header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        header nav a {
+            color: #f6f7f9; /* Make the text color white */
+            font-weight: bolder;
+            font-size: 1.2em;
+            padding: 3px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        header nav a:hover {
+            color: #BCBCBC;
+        }
+
+        header .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        header .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #f6f7f9;
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            header {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px 10px;
+            }
+            
+            header nav {
+                gap: 15px;
+            }
+
+            header nav a {
+                font-size: 1em;
+                padding: 3px 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            header .logo {
+                margin-bottom: 10px;
+            }
+
+            header nav {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            header.nav-open nav {
+                display: flex;
+            }
+
+            header nav a {
+                font-size: 0.9em;
+                padding: 3px 5px;
+            }
+
+            header .hamburger {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 5px;
+            }
+
+            header nav {
+                gap: 5px;
+            }
+
+            header nav a {
+                font-size: 0.8em;
+                padding: 2px 4px;
+            }
+        }
+
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 5px; /* Space between name and description */
+        }
+        .item-description {
+            margin-left: 20px; /* Indent description */
+            color: #BCBCBC; /* Optional: Different color for description */
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .table-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px; /* Minimal space between tables */
+            padding: 0;
+            margin: 0;
+            margin-right: 30px;
+        }
+
+        .styled-table {
+            width: 100%;
+            max-width: 100%;
+            flex: 1 1 calc(33.333% - 20px); /* Flex basis to allow 3 tables side by side */
+            margin: 10px 0; /* Margin around tables for spacing */
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px; /* Rounded corners for the table */
+            box-shadow: 0 6px 12px rgba(231, 227, 227, 0.286); /* Deeper shadow for a 3D effect */
+            overflow: hidden; /* Ensures that content respects border-radius */
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Subtle gradient background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for effects */
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 1200px) {
+            .styled-table {
+                flex: 1 1 calc(50% - 20px); /* Two tables side by side */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .styled-table {
+                flex: 1 1 100%; /* Full width for smaller screens */
+            }
+        }
+
+        /* Style for table borders */
+        .styled-table, .styled-table th, .styled-table td {
+            border: 2px solid #6d6b6b; /* Light grey border color */
+        }
+
+        /* Hover effect */
+        .styled-table:hover {
+            transform: translateY(-5px); /* Slight lift effect */
+            box-shadow: 0 12px 24px rgba(231, 228, 228, 0.308); /* Stronger shadow on hover */
+        }
+
+        /* Style for table headers */
+        .styled-table th {
+            background: linear-gradient(135deg, #6d6b6b, #6d6b6b); /* Gradient background for headers */
+            color: white; /* Text color for headers */
+            padding: 8px 10px; /* Reduced padding for more compact headers */
+            text-align: center;
+            font-size: 14px; /* Smaller font size for headers */
+            font-weight: bold;
+            border-bottom: 4px solid #6d6b6b; /* Slightly thicker bottom border for header */
+        }
+
+        /* Style for table cells */
+        .styled-table td {
+            padding: 8px 10px; /* Reduced padding for more compact cells */
+            font-size: 12px; /* Smaller font size for cells */
+            color: #495057; /* Dark grey text color for better readability */
+            text-align: center;
+            word-wrap: break-word; /* Ensure long words break to fit within the cell */
+        }
+
+        /* Alternating row colors for better readability */
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #f1f1f1; /* Light grey for even rows */
+        }
+
+        /* Style for the section containing stacked tables */
+        .stacked-tables {
+            display: flex;
+            flex-direction: column; /* Stack tables vertically */
+            gap: 20px; /* Space between tables */
+        }
+        .item-nameT {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px; /* Space between name and description */
+            text-align: center;
+            color: #0A162C;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .item-descriptionT {
+            font-size: 1.2em;
+            margin-left: 10px; /* Indent description */
+            color: #575555; /* Optional: Different color for description */
+            margin-bottom: 5px;
+            font-weight: normal;
+            text-align: center;
+            margin-right: 10px;
+            
+        }
+        .button-row {
+            text-align: center; /* Center the content of the row */
+            background-color: #f1f1f1; /* Match the alternating row color */
+        }
+
+        .button-row .action-button {
+            display: inline-block; /* Ensure the button behaves like an inline element */
+            padding: 10px 40px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4A495A; /* Blue background */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from anchor link */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            margin: 5px 0; /* Add some vertical margin for spacing */
+            margin-top: 5px; /* Add margin to the top to prevent touching the border */
+
+        }
+
+        .button-row .action-button:hover {
+            background-color: #BCBCBC; /* Darker blue on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow on hover */
+            text-decoration: none; /* Ensure no underline on hover */
+        }
+
+        /* Adding some responsive design for tables */
+        @media (max-width: 768px) {
+            .table-container {
+                flex-direction: column; /* Stack tables vertically on small screens */
+            }
+
+            .styled-table {
+                width: 100%; /* Full width for better mobile display */
+            }
+        }
+
+        /* Optional: Add a focus style for accessibility */
+        .styled-table td:focus {
+            outline: 2px dashed #BCBCBC; /* Blue dashed outline for focus */
+            outline-offset: 2px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <nav>
+            <a href="#academic-information">Academic Information</a>
+            <a href="#Research-Interests">Research Interests</a>
+            <a href="#Experiences">Experiences</a>
+            <a href="#Projects">Projects</a>
+            <a href="#certificates">Honors and Certificates</a>
+        </nav>
+    </header>
+    <div class="sidebar">
+        <img src="./statics/Image.jpeg" alt="Your Picture" class="profile-picture">
+        <h1>Saba Razi</h1>
+        <p>
+            I am currently pursuing a Bachelor's degree in Computer Engineering at IUST. I am passionate about learning new things and sharing my knowledge. 
+        </p>
+        <div class="location">
+            <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Location Logo">
+            <span>Tehran</span>
+        </div>
+
+        <div class="links">
+            <a href="mailto:saba_razi@comp.iust.ac.ir" class="email">
+                <img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" alt="Email Logo">
+                Email
+            </a>
+            <a href="https://www.linkedin.com/in/saba-razi/" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn Logo">
+                LinkedIn
+            </a>
+            <a href="https://github.com/sabarz" target="_blank" class="github">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub Logo">
+                GitHub
+            </a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="main-content">
+            
+            <h1 id="academic-information">Academic Information</h1>
+            <p>GPA : 3.78/4.0</p>
+            <p>Duolingo exam results :</p>
+            <ul>
+                <li>Overall: 120</li>
+                <li>Literacy: 120</li>
+                <li>Comprehension: 125</li>
+                <li>Conversation: 115</li>
+                <li>Production: 95</li>
+            </ul>
+            <h5>The exam was taken in January 2023.</h5>
+            <h5>Expected IELTS Score of 7.0, exam to be taken in the near future.</h5>
+            
+            <div class="ish">
+                <a href="./statics/CV.pdf" target="_blank" class="resume-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download" style="width: 24px; height: 24px; color: white;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    download my CV.
+                </a>
+            </div>
+
+            <h1 id="Research-Interests">Research Interests</h1>
+            <p>My Research Interests:</p>
+            <ul>
+                <li>
+                    <div class="item-name">Natural Language Processing (NLP)</div>
+                    <div class="item-description">Language models, text generation, sentiment analysis</div>
+                </li>
+                <li>
+                    <div class="item-name">Machine Learning (ML)</div>
+                    <div class="item-description">Supervised and unsupervised learning, model optimization</div>
+                </li>
+                <li>
+                    <div class="item-name">Computer Vision</div>
+                    <div class="item-description">Image recognition, object detection, segmentation</div>
+                </li>
+                <li>
+                    <div class="item-name">Deep Learning</div>
+                    <div class="item-description">Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), Transformers</div>
+                </li>
+            </ul>
+            
+            <h1 id="Experiences">Experiences</h1>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">Researcher At IUST Lab - Fall 2023</div>
+                                <div class="item-descriptionT">Supervisor: Dr.Morteza Analoui</div>
+                                <div class="item-descriptionT">Project Title : AI API for Sign Language to Text & Text to Sign Language</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">AI engineer - Summer 2023</div>
+                                <div class="item-nameT">Company : Pirally</div>
+                                <div class="item-descriptionT">Contributed to the development of AI-based chatbot for customer services. </div>
+                                <div class="item-descriptionT">And developing a program for 360-degree rendering of 3D models using Blender.</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">Vice-President of CESA, Student's Scientific Organization - Spring 2023 to Spring 2024</div>
+                                <div class="item-descriptionT">I have been the Vice-President of CESA, which is Student's Scientific Organization of department of Computer Engineering at Iran University of Science and Technology.</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Teaching Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="item-nameT">Operating System - Spring 2024</div>
+                                <div class="item-descriptionT">Instructor : Dr.Reza Entezari Maleki</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Natural Language Processing - Spring 2024</div>
+                                <div class="item-descriptionT">Instructor : Dr. Marzieh Davood Abadi</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Advanced Programming - Spring 2024</div>
+                                <div class="item-descriptionT">Instructor : Dr. Marzieh Davood Abadi</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Fundamentals of Computer - Spring 2024</div>
+                                <div class="item-descriptionT">Instructor : Dr. Mehrdad Ashtiani</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Computer Vision - Spring 2024</div>
+                                <div class="item-descriptionT">Instructor : Dr.Mohammad reza Mohammadi</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Algorithm analysis and design - Spring 2023</div>
+                                <div class="item-descriptionT">Instructor : Dr. Farzaneh Ghayour Baghbani</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Competitive Programming - Fall 2023</div>
+                                <div class="item-descriptionT">Instructor : Dr. Marzie Maleki Majd</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">System analysis and design - Spring 2023</div>
+                                <div class="item-descriptionT">Instructor : Dr. Mehrdad Ashtiani</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Principles of Database Design - Spring 2022</div>
+                                <div class="item-descriptionT">Instructor : Dr. Hossein Rahnmani</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Algorithm Design - Spring 2022</div>
+                                <div class="item-descriptionT">Instructor : Dr. Marzie Maleki Majd</div>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td><div class="item-nameT">Data Structure - Fall 2022</div>
+                                <div class="item-descriptionT">Instructor : Dr. Hossein Rahnmani</div>
+                            </td>
+                        </tr>
+                                             
+                    </tbody>
+                </table>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Education</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="item-nameT">B.Sc. in Computer Science</div>
+                                <div class="item-descriptionT">Iran University of Science and Technology, Tehran, Iran<div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="item-nameT">Diploma in Mathematics and Physics Discipline</div>
+                                <div class="item-descriptionT">Farzanegan 3 High School, Karaj, Iran</div>
+                                <div class="item-descriptionT">Affiliated with the National Organization for Development of Exceptional Talents</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h1 id="Projects">Projects</h1>
+            
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>OCR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">This Project consists of:</div>
+                                <div class="item-descriptionT">Cropping the Card Section</div>
+                                <div class="item-descriptionT">Card Type Detection</div>
+                                <div class="item-descriptionT">Locate Numbers on the Card</div>    
+                                <div class="item-descriptionT">Determining the Numbers and if they are Persian or English</div>
+                            </td>
+                        </tr>
+                        <tr class="button-row">
+                            <td colspan="1">
+                                <a href="https://github.com/sabarz/CV_PROJECT_ocr_iust" class="action-button">View More</a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>NLP Genere Detection</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">This Project consists of:</div>
+                                <div class="item-descriptionT">Genre Detection from the Books abstracts Introduction</div>
+                                <div class="item-descriptionT">Summeries about books are colleceted from the Goodreads website</div>
+
+                            </td>
+                        </tr>
+                        <tr class="button-row">
+                            <td colspan="1">
+                                <a href="https://github.com/sabarz/NLP_PROJECT_summary_iust" class="action-button">View More</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Game Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">This Project consists of:</div>
+                                <div class="item-descriptionT">An Agent that discovers the locations of randomly placed balls and holes and match each ball with a hole. The agent starts without any knowledge of the grid and can only examine neighboring cells.</div>
+                            </td>
+                        </tr>
+                        <tr class="button-row">
+                            <td colspan="1">
+                                <a href="https://github.com/sabarz/Computational_Intelligence_iust" class="action-button">View More</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Breakout Atari Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">This Project consists of:</div>
+                                <div class="item-descriptionT">applied Q-learning, a fundamental reinforcement learning algorithm, for training an agent to play the classic arcade game Breakout.</div>
+                            </td>
+                        </tr>
+                        <tr class="button-row">
+                            <td colspan="1">
+                                <a href="https://github.com/sabarz/AI_iust/tree/main/project" class="action-button">View More</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>G-force software</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">This Project consists of:</div>
+                                <div class="item-descriptionT">A web application for project management, allowing for effective task organization and collaboration</div>
+                                <div class="item-descriptionT">Built using Django REST APIs, Docker, and CI/CD pipelines.</div>
+                            </td>
+                        </tr>
+                        <tr class="button-row">
+                            <td colspan="1">
+                                <a href="https://github.com/sabarz/G-force-software-PROJECT" class="action-button">View More</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Appdoon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-nameT">This Project consists of:</div>
+                                <div class="item-descriptionT">A website providing a comprehensive roadmap for various fields</div>
+                                <div class="item-descriptionT">Developed responsive user interfaces using React and JavaScript.</div>
+                            </td>
+                        </tr>
+                        <tr class="button-row">
+                            <td colspan="1">
+                                <a href="https://github.com/sabarz/Appdoon_OnlineUniversity" class="action-button">View More</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+            <h1 id="certificates">Honors and Certificates</h1>
+            <div class="item-name"> </div>
+            <ul>
+                <li>
+                    <div class="item-name">Ranked in the Top 0.1% in Iranian University Entrance Exam among 155,000 participants</div>
+                </li>
+                <li>
+                    <div class="item-name">Ranked among the top 16% in GPA within the Computer Science faculty at IUST.</div>
+                </li>
+                <li>
+                    <div class="item-name">Accepted in first round of Iranian Mathematics and Computer Olympiad.</div>
+                </li>
+                <li>
+                    <div class="item-name">3rd Rank in the field of Research in Kharazmi Festival for Teenagers.</div>
+                </li>
+            </ul>
+            
+            <div class="certificates">
+                <img src="./statics/coursera alghorithms on strings.jpg" alt="Certificate 1" class="certificate">
+                <img src="./statics/Coursera algorithmic toolbox.jpg" alt="Certificate 2" class="certificate">
+                <img src="./statics/coursera data structure.jpg" alt="Certificate 3" class="certificate">
+                <img src="./statics/coursera graph.jpg" alt="Certificate 4" class="certificate">
+                <img src="./statics/SQL.jpg" alt="Certificate 5" class="certificate">                
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.certificate').forEach(function(img) {
+            img.addEventListener('click', function(event) {
+                // Prevent the click event from bubbling up to the document
+                event.stopPropagation();
+                document.querySelectorAll('.certificate').forEach(function(image) {
+                    image.classList.remove('zoomed');
+                });
+                img.classList.add('zoomed');
+            });
+        });
+    
+        document.addEventListener('click', function(event) {
+            if (!event.target.classList.contains('certificate') && document.querySelector('.certificate.zoomed')) {
+                document.querySelectorAll('.certificate').forEach(function(img) {
+                    img.classList.remove('zoomed');
+                });
+            }
+        });
+
+        function toggleMenu() {
+            const header = document.querySelector('header');
+            header.classList.toggle('nav-open');
+        }
+
+        
+
+
+    </script>
+    
+
+</body>
+</html>
